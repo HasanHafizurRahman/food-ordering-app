@@ -5,8 +5,12 @@ body{
   padding: 1rem;
 }
 
-.body-left{
+.search{
+  padding : 1rem;
+}
+
+.res-container{
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
+  align-items: center;  
 }

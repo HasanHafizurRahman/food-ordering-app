@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from './Card/Card';
 
 const Body = () => {
   return (
@@ -6,7 +7,9 @@ const Body = () => {
       <div className='Search'>
         Search
       </div>
-      <div className='res-container'></div>
+      <div className='res-container'>
+        <Card />
+      </div>
     </div>
   );
 };  
