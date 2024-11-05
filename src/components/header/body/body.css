@@ -1,5 +1,5 @@
 .body{
-  padding: 1rem;
+  padding: 4rem;
 }
 
 .search{
@@ -9,7 +9,7 @@
 .res-container{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: 1rem;
+  grid-gap: 4rem;
   justify-content: center;
   align-items: center;
   }

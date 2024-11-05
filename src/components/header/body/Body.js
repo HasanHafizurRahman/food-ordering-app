@@ -6,7 +6,7 @@ import { restaurantLists } from '../../../restaurantLists';
 const Body = () => {
   return (
     <div className='body'>      
-      <div className='Search'>
+      <div className='search'>
         Search
       </div>
       <div className='res-container'>
