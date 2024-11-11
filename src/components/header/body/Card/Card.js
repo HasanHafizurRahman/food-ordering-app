@@ -16,7 +16,7 @@ const Card = ({ data }) => {
         <p className='res-card-cuisines'>{cuisines.join(', ')}</p>
         <div className='res-card-info'>
         <span className='res-card-rating'>
-            &#9733; {avgRating} {/* White star symbol */}
+            &#9733; {avgRating} 
           </span>
           <span className='res-card-delivery-time'>
             ⏱ {sla.deliveryTime} mins

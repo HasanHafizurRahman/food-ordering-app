@@ -1,9 +1,19 @@
 .body{
-  padding: 4rem;
+  padding-inline: 4rem;
 }
 
-.search{
-  padding : 1rem;
+.filter{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 1rem;
+}
+
+.filter-btn{
+  padding: 0.3rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 .res-container{
