@@ -2,15 +2,18 @@ import React from 'react';
 import './card.css';
 
 const Card = ({ data }) => {
-  const { name, cuisines, avgRating, sla, costForTwo } = data;
+  console.log('props data',data);
+  const { name, cuisines, avgRating, sla, costForTwo, cloudinaryImageId } = data;
+
+  const imageUrl = `https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/${cloudinaryImageId}`;
 
   return (
     <div className='res-card'>
       <img
-        src='https://www.foodiesfeed.com/wp-content/uploads/2023/06/burger-with-melted-cheese.jpg'
+        src={imageUrl}
         alt='food-img'
         className='res-card-img'
-      />
+       />
       <div className='res-card-content'>
         <h3 className='res-card-name'>{name}</h3>
         <p className='res-card-cuisines'>{cuisines.join(', ')}</p>
