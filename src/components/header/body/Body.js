@@ -1,40 +1,62 @@
-import React, { useEffect } from 'react';
-import Card from './Card/Card';
-import './body.css';
+import React, { useEffect, useState } from "react";
+import Card from "./Card/Card";
+import "./body.css";
 
 const Body = () => {
-  const [resLists, setResLists] = React.useState([]);
-  const handleClick = () => {
-    setResLists(resLists.filter((res) => res.data.avgRating >= 4.1));
+  const [resLists, setResLists] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch restaurant data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.9615398&lng=79.29614668&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`
+        );
+        const data = await response.json();
+        const restaurants =
+          data?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
+            ?.restaurants || [];
+        setResLists(restaurants);
+      } catch (err) {
+        setError("Failed to fetch restaurant data. Please try again later.");
+        console.error("Error fetching data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Handle filtering for top-rated restaurants
+  const handleFilterTopRated = () => {
+    setResLists((prevList) =>
+      prevList.filter((res) => res.data.avgRating >= 4.1)
+    );
   };
 
-  useEffect(() => {
-   fetchData();
-  }, [])
- 
-
-const fetchData = async () => {
-  const res = await fetch(`https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.9615398&lng=79.29614668&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`);
-  const data = await res.json();
-  // console.log(data?.data?.cards[2].card.card.gridElements.infoWithStyle.restaurants[0].info, 'data');
-  setResLists(data?.data?.cards[2].card.card.gridElements.infoWithStyle.restaurants);  
-};
-
   return (
-    <div className='body'>      
-      <div className='filter'>
-        <button className='filter-btn' onClick={handleClick}>Top Rated</button>
+    <div className="body">
+      <div className="filter">
+        <button className="filter-btn" onClick={handleFilterTopRated}>
+          Top Rated
+        </button>
       </div>
-      <div className='res-container'>
-        {resLists?.map((res) => (
-          <Card 
-          key={res.id}
-          data={res.info}
-          />
-        ))}
+      <div className="res-container">
+        {loading ? (
+          <p className="loading-message">Loading restaurants...</p>
+        ) : error ? (
+          <p className="error-message">{error}</p>
+        ) : resLists.length > 0 ? (
+          resLists.map((res) => <Card key={res.info.id} data={res?.info} />)
+        ) : (
+          <p className="no-data-message">No restaurants found.</p>
+        )}
       </div>
     </div>
   );
-};  
+};
 
 export default Body;
