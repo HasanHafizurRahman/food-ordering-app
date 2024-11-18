@@ -33,7 +33,7 @@ const Body = () => {
   // Handle filtering for top-rated restaurants
   const handleFilterTopRated = () => {
     setResLists((prevList) =>
-      prevList.filter((res) => res.data.avgRating >= 4.1)
+      prevList.filter((res) => res.info.avgRating >= 4.1)
     );
   };
 
