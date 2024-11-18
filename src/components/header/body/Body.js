@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Card from "./Card/Card";
 import "./body.css";
 
@@ -7,18 +8,30 @@ const Body = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch restaurant data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.9615398&lng=79.29614668&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`
+        const response = await axios.get(
+          "https://www.swiggy.com/dapi/restaurants/list/v5",
+          {
+            params: {
+              lat: 19.9615398,
+              lng: 79.29614668,
+              "is-seo-homepage-enabled": true,
+              page_type: "DESKTOP_WEB_LISTING",
+            },
+          }
         );
-        const data = await response.json();
+        const data = response.data;
         const restaurants =
           data?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
             ?.restaurants || [];
-        setResLists(restaurants);
+
+        // Extract `.info` from restaurants
+        const restaurantInfos = restaurants.map((res) => res?.info);
+        console.log("restaurantInfos:", restaurantInfos);
+
+        setResLists(restaurantInfos);
       } catch (err) {
         setError("Failed to fetch restaurant data. Please try again later.");
         console.error("Error fetching data:", err);
@@ -33,7 +46,7 @@ const Body = () => {
   // Handle filtering for top-rated restaurants
   const handleFilterTopRated = () => {
     setResLists((prevList) =>
-      prevList.filter((res) => res.info.avgRating >= 4.1)
+      prevList.filter((res) => res.avgRating >= 4.1)
     );
   };
 
@@ -50,7 +63,7 @@ const Body = () => {
         ) : error ? (
           <p className="error-message">{error}</p>
         ) : resLists.length > 0 ? (
-          resLists.map((res) => <Card key={res.info.id} data={res?.info} />)
+          resLists.map((res) => <Card key={res?.id} data={res} />)
         ) : (
           <p className="no-data-message">No restaurants found.</p>
         )}
