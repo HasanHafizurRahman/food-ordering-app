@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "./Card/Card";
 import "./body.css";
+import Loading from "../../Loading";
 
 const Body = () => {
   const [resLists, setResLists] = useState([]);
@@ -24,6 +25,7 @@ const Body = () => {
         );
   
         const data = response.data;
+        // console.log("Fetched data:", data);
   
         // Search for the card containing `restaurants` dynamically
         const restaurantsCard = data?.data?.cards?.find(
@@ -35,16 +37,15 @@ const Body = () => {
         const restaurants =
           restaurantsCard?.card?.card?.gridElements?.infoWithStyle?.restaurants ||
           [];
-        console.log("Extracted restaurants:", restaurants);
+        // console.log("Extracted restaurants:", restaurants);
   
-        // Map to `.info` if necessary
         const restaurantInfos = restaurants.map((res) => res?.info);
-        console.log("Extracted restaurant info:", restaurantInfos);
+        // console.log("Extracted restaurant info:", restaurantInfos);
   
-        setResLists(restaurantInfos); // Update the state with restaurant info
+        setResLists(restaurantInfos);
       } catch (err) {
         setError("Failed to fetch restaurant data. Please try again later.");
-        console.error("Error fetching data:", err);
+        // console.error("Error fetching data:", err);
       } finally {
         setLoading(false);
       }
@@ -70,7 +71,7 @@ const Body = () => {
       </div>
       <div className="res-container">
         {loading ? (
-          <p className="loading-message">Loading restaurants...</p>
+          <Loading />
         ) : error ? (
           <p className="error-message">{error}</p>
         ) : resLists.length > 0 ? (
