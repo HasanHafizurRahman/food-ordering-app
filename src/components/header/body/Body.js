@@ -22,16 +22,26 @@ const Body = () => {
             },
           }
         );
+  
         const data = response.data;
+  
+        // Search for the card containing `restaurants` dynamically
+        const restaurantsCard = data?.data?.cards?.find(
+          (card) =>
+            card?.card?.card?.gridElements?.infoWithStyle?.restaurants?.length
+        );
+  
+        // Extract restaurants if found
         const restaurants =
-          data?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
-            ?.restaurants || [];
-
-        // Extract `.info` from restaurants
+          restaurantsCard?.card?.card?.gridElements?.infoWithStyle?.restaurants ||
+          [];
+        console.log("Extracted restaurants:", restaurants);
+  
+        // Map to `.info` if necessary
         const restaurantInfos = restaurants.map((res) => res?.info);
-        console.log("restaurantInfos:", restaurantInfos);
-
-        setResLists(restaurantInfos);
+        console.log("Extracted restaurant info:", restaurantInfos);
+  
+        setResLists(restaurantInfos); // Update the state with restaurant info
       } catch (err) {
         setError("Failed to fetch restaurant data. Please try again later.");
         console.error("Error fetching data:", err);
@@ -39,9 +49,10 @@ const Body = () => {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   // Handle filtering for top-rated restaurants
   const handleFilterTopRated = () => {
