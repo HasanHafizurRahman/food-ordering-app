@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "./Card/Card";
 import "./body.css";
-import Loading from "../../Loading";
+import ShimmerLoading from "../../ShimmerLoading";
 
 const Body = () => {
   const [resLists, setResLists] = useState([]);
@@ -71,7 +71,7 @@ const Body = () => {
       </div>
       <div className="res-container">
         {loading ? (
-          <Loading />
+          <ShimmerLoading />
         ) : error ? (
           <p className="error-message">{error}</p>
         ) : resLists.length > 0 ? (
