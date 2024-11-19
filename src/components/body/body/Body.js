@@ -58,10 +58,11 @@ const Body = () => {
   };
 
   const handleSearch = () => {
-    
-    setSearchText("");
+    const filteredResList = resLists.filter((res) => res.name.toLowerCase().includes(searchText.toLowerCase()));
+    setResLists(filteredResList);
+    // setSearchText("");
   };  
-
+console.log("body re-rendered");
   return (
     <div className="body">
       <div className="filter">
