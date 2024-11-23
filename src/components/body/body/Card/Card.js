@@ -22,7 +22,7 @@ const Card = ({ data }) => {
             &#9733; {avgRating} 
           </span>
           <span className='res-card-delivery-time'>
-            ⏱ {sla.deliveryTime} mins
+            ⏱ {sla?.deliveryTime} mins
           </span>
         </div>
         <p className='res-card-cost'>{costForTwo}</p>

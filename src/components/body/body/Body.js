@@ -6,9 +6,10 @@ import ShimmerLoading from "../../ShimmerLoading";
 
 const Body = () => {
   const [resLists, setResLists] = useState([]);
+  const [filteredResList, setFilteredResList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchText, setSearchText] = useState("");   
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,11 +40,10 @@ const Body = () => {
             ?.restaurants || [];
 
         const restaurantInfos = restaurants.map((res) => res?.info);
-
         setResLists(restaurantInfos);
+        setFilteredResList(restaurantInfos);
       } catch (err) {
         setError("Failed to fetch restaurant data. Please try again later.");
-        // console.error("Error fetching data:", err);
       } finally {
         setLoading(false);
       }
@@ -54,20 +54,30 @@ const Body = () => {
 
   // Handle filtering for top-rated restaurants
   const handleFilterTopRated = () => {
-    setResLists((prevList) => prevList.filter((res) => res.avgRating >= 4.1));
+    setFilteredResList((prevList) =>
+      prevList.filter((res) => res.avgRating >= 4.1)
+    );
   };
 
   const handleSearch = () => {
-    const filteredResList = resLists.filter((res) => res.name.toLowerCase().includes(searchText.toLowerCase()));
-    setResLists(filteredResList);
+    const filteredRes = resLists.filter((res) =>
+      res.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilteredResList(filteredRes);
     // setSearchText("");
-  };  
-console.log("body re-rendered");
+  };
+  console.log("body re-rendered");
   return (
     <div className="body">
       <div className="filter">
         <div className="search-wrapper">
-          <input type="text" className="search-box" placeholder="Search" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+          <input
+            type="text"
+            className="search-box"
+            placeholder="Search"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
           <button className="search-btn" onClick={handleSearch}>
             <i className="fas fa-search"></i>
           </button>
@@ -81,8 +91,8 @@ console.log("body re-rendered");
           <ShimmerLoading />
         ) : error ? (
           <p className="error-message">{error}</p>
-        ) : resLists.length > 0 ? (
-          resLists.map((res) => <Card key={res?.id} data={res} />)
+        ) : filteredResList.length > 0 ? (
+          filteredResList.map((res) => <Card key={res?.id} data={res} />)
         ) : (
           <p className="no-data-message">No restaurants found.</p>
         )}
