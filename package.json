@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "App.js",
   "scripts": {
+    "postinstall": "sed -i 's|from \"react-router/dom\"|from \"react-router\"|' ./node_modules/react-router-dom/dist/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html",
     "build": "parcel build index.html"
@@ -20,6 +21,8 @@
     "axios": "^1.7.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-nitro-form": "^1.0.4"
+    "react-nitro-form": "^1.0.7",
+    "react-router": "^7.0.1",
+    "react-router-dom": "^7.0.1"
   }
 }
