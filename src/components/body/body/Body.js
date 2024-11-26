@@ -28,7 +28,7 @@ const Body = () => {
   
         // Step 2: Fetch data from API only if online and URL is valid
         if (navigator.onLine) {
-          const apiUrl = "";
+          const apiUrl = "https://www.swiggy.com/dapi/restaurants/list/v5";
           if (apiUrl) {
             const response = await axios.get(apiUrl, {
               params: {
