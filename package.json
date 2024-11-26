@@ -6,7 +6,7 @@
     "postinstall": "sed -i 's|from \"react-router/dom\"|from \"react-router\"|' ./node_modules/react-router-dom/dist/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html",
-    "build": "parcel build index.html --public-url ./"
+    "build": "parcel build index.html"
   },
   "keywords": [],
   "author": "",
