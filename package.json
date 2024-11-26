@@ -6,19 +6,23 @@
     "postinstall": "sed -i 's|from \"react-router/dom\"|from \"react-router\"|' ./node_modules/react-router-dom/dist/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --public-url ./"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@parcel/packager-raw-url": "^2.13.0",
+    "@parcel/transformer-webmanifest": "^2.13.0",
     "buffer": "^6.0.3",
     "parcel": "^2.12.0",
-    "process": "^0.11.10"
+    "process": "^0.11.10",
+    "workbox-cli": "^7.3.0"
   },
   "dependencies": {
     "axios": "^1.7.7",
+    "idb": "^8.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-nitro-form": "^1.0.7",

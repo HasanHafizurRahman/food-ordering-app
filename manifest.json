@@ -1,0 +1,20 @@
+{
+  "name": "Food Ordering App",
+  "short_name": "FoodApp",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/dutdah0l9/image/upload/v1720058694/Swiggy_logo_bml6he.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://res.cloudinary.com/dutdah0l9/image/upload/v1720058694/Swiggy_logo_bml6he.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000"
+}
