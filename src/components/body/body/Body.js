@@ -21,7 +21,7 @@ const Body = () => {
         const offlineData = await getRestaurants();
   
         if (offlineData.length > 0) {
-          console.log("Loaded data from IndexedDB:", offlineData);
+          // console.log("Loaded data from IndexedDB:", offlineData);
           setResLists(offlineData);
           setFilteredResList(offlineData);
         }
@@ -53,7 +53,7 @@ const Body = () => {
             const restaurantInfos = restaurants.map((res) => res?.info);
   
             if (restaurantInfos.length > 0) {
-              console.log("Loaded data from API:", restaurantInfos);
+              // console.log("Loaded data from API:", restaurantInfos);
               setResLists(restaurantInfos);
               setFilteredResList(restaurantInfos);
   
