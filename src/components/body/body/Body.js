@@ -11,7 +11,7 @@ const Body = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchText, setSearchText] = useState("");
-
+  
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -28,31 +28,38 @@ const Body = () => {
   
         // Step 2: Fetch data from API only if online and URL is valid
         if (navigator.onLine) {
-          const proxyUrl =
-            "cors-bypass-omv3z790m-hasanhafizurrahmans-projects.vercel.app/proxy?url=https%3A%2F%2Fwww.swiggy.com%2Fdapi%2Frestaurants%2Flist%2Fv5%3Flat%3D19.9615398%26lng%3D79.2961468%26is-seo-homepage-enabled%3Dtrue%26page_type%3DDESKTOP_WEB_LISTING";
+          const apiUrl = "http://cors-anywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5";
+          if (apiUrl) {
+            const response = await axios.get(apiUrl, {
+              params: {
+                lat: 19.9615398,
+                lng: 79.29614668,
+                "is-seo-homepage-enabled": true,
+                page_type: "DESKTOP_WEB_LISTING",
+              },
+            });
   
-          const response = await axios.get(proxyUrl);
+            const data = response.data;
   
-          const data = response.data;
+            const restaurantsCard = data?.data?.cards?.find(
+              (card) =>
+                card?.card?.card?.gridElements?.infoWithStyle?.restaurants?.length
+            );
   
-          const restaurantsCard = data?.data?.cards?.find(
-            (card) =>
-              card?.card?.card?.gridElements?.infoWithStyle?.restaurants?.length
-          );
+            const restaurants =
+              restaurantsCard?.card?.card?.gridElements?.infoWithStyle
+                ?.restaurants || [];
   
-          const restaurants =
-            restaurantsCard?.card?.card?.gridElements?.infoWithStyle
-              ?.restaurants || [];
+            const restaurantInfos = restaurants.map((res) => res?.info);
   
-          const restaurantInfos = restaurants.map((res) => res?.info);
+            if (restaurantInfos.length > 0) {
+              // console.log("Loaded data from API:", restaurantInfos);
+              setResLists(restaurantInfos);
+              setFilteredResList(restaurantInfos);
   
-          if (restaurantInfos.length > 0) {
-            // console.log("Loaded data from API:", restaurantInfos);
-            setResLists(restaurantInfos);
-            setFilteredResList(restaurantInfos);
-  
-            // Save fresh data to IndexedDB
-            await saveRestaurants(restaurantInfos);
+              // Save fresh data to IndexedDB
+              await saveRestaurants(restaurantInfos);
+            }
           }
         }
       } catch (err) {
@@ -67,6 +74,13 @@ const Body = () => {
   
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log("Component rendering");
+    console.log("Restaurants List:", resLists);
+    console.log("Filtered List:", filteredResList);
+  }, [resLists, filteredResList]);
+  
   
   const handleFilterTopRated = () => {
     setFilteredResList((prevList) =>
@@ -122,13 +136,7 @@ export default Body;
 
 
 
-
-
-
-
-
-
-// useEffect(() => {
+  // useEffect(() => {
   //   const fetchData = async () => {
   //     setLoading(true);
   
@@ -144,38 +152,31 @@ export default Body;
   
   //       // Step 2: Fetch data from API only if online and URL is valid
   //       if (navigator.onLine) {
-  //         const apiUrl = "http://cors-anywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5";
-  //         if (apiUrl) {
-  //           const response = await axios.get(apiUrl, {
-  //             params: {
-  //               lat: 19.9615398,
-  //               lng: 79.29614668,
-  //               "is-seo-homepage-enabled": true,
-  //               page_type: "DESKTOP_WEB_LISTING",
-  //             },
-  //           });
+  //         const proxyUrl =
+  //           "http://localhost:8080/proxy?url=https%3A%2F%2Fwww.swiggy.com%2Fdapi%2Frestaurants%2Flist%2Fv5%3Flat%3D19.9615398%26lng%3D79.2961468%26is-seo-homepage-enabled%3Dtrue%26page_type%3DDESKTOP_WEB_LISTING";
   
-  //           const data = response.data;
+  //         const response = await axios.get(proxyUrl);
   
-  //           const restaurantsCard = data?.data?.cards?.find(
-  //             (card) =>
-  //               card?.card?.card?.gridElements?.infoWithStyle?.restaurants?.length
-  //           );
+  //         const data = response.data;
   
-  //           const restaurants =
-  //             restaurantsCard?.card?.card?.gridElements?.infoWithStyle
-  //               ?.restaurants || [];
+  //         const restaurantsCard = data?.data?.cards?.find(
+  //           (card) =>
+  //             card?.card?.card?.gridElements?.infoWithStyle?.restaurants?.length
+  //         );
   
-  //           const restaurantInfos = restaurants.map((res) => res?.info);
+  //         const restaurants =
+  //           restaurantsCard?.card?.card?.gridElements?.infoWithStyle
+  //             ?.restaurants || [];
   
-  //           if (restaurantInfos.length > 0) {
-  //             // console.log("Loaded data from API:", restaurantInfos);
-  //             setResLists(restaurantInfos);
-  //             setFilteredResList(restaurantInfos);
+  //         const restaurantInfos = restaurants.map((res) => res?.info);
   
-  //             // Save fresh data to IndexedDB
-  //             await saveRestaurants(restaurantInfos);
-  //           }
+  //         if (restaurantInfos.length > 0) {
+  //           // console.log("Loaded data from API:", restaurantInfos);
+  //           setResLists(restaurantInfos);
+  //           setFilteredResList(restaurantInfos);
+  
+  //           // Save fresh data to IndexedDB
+  //           await saveRestaurants(restaurantInfos);
   //         }
   //       }
   //     } catch (err) {
@@ -190,4 +191,3 @@ export default Body;
   
   //   fetchData();
   // }, []);
-  
