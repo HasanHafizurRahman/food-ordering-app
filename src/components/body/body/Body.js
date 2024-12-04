@@ -3,7 +3,6 @@ import axios from "axios";
 import Card from "./Card/Card";
 import "./body.css";
 import ShimmerLoading from "../../loading/ShimmerLoading";
-import { saveRestaurants, getRestaurants } from "../../../../indexedDB";
 
 const Body = () => {
   const [resLists, setResLists] = useState([]);
@@ -11,55 +10,40 @@ const Body = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchText, setSearchText] = useState("");
-  
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-  
+
       try {
-        // Step 1: Always load data from IndexedDB first
-        const offlineData = await getRestaurants();
-  
-        if (offlineData.length > 0) {
-          // console.log("Loaded data from IndexedDB:", offlineData);
-          setResLists(offlineData);
-          setFilteredResList(offlineData);
-        }
-  
-        // Step 2: Fetch data from API only if online and URL is valid
+        // Step 1: Fetch data from API if online
         if (navigator.onLine) {
           const apiUrl = "http://cors-anywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5";
-          if (apiUrl) {
-            const response = await axios.get(apiUrl, {
-              params: {
-                lat: 19.9615398,
-                lng: 79.29614668,
-                "is-seo-homepage-enabled": true,
-                page_type: "DESKTOP_WEB_LISTING",
-              },
-            });
-  
-            const data = response.data;
-  
-            const restaurantsCard = data?.data?.cards?.find(
-              (card) =>
-                card?.card?.card?.gridElements?.infoWithStyle?.restaurants?.length
-            );
-  
-            const restaurants =
-              restaurantsCard?.card?.card?.gridElements?.infoWithStyle
-                ?.restaurants || [];
-  
-            const restaurantInfos = restaurants.map((res) => res?.info);
-  
-            if (restaurantInfos.length > 0) {
-              // console.log("Loaded data from API:", restaurantInfos);
-              setResLists(restaurantInfos);
-              setFilteredResList(restaurantInfos);
-  
-              // Save fresh data to IndexedDB
-              await saveRestaurants(restaurantInfos);
-            }
+          const response = await axios.get(apiUrl, {
+            params: {
+              lat: 19.9615398,
+              lng: 79.29614668,
+              "is-seo-homepage-enabled": true,
+              page_type: "DESKTOP_WEB_LISTING",
+            },
+          });
+
+          const data = response.data;
+
+          const restaurantsCard = data?.data?.cards?.find(
+            (card) =>
+              card?.card?.card?.gridElements?.infoWithStyle?.restaurants?.length
+          );
+
+          const restaurants =
+            restaurantsCard?.card?.card?.gridElements?.infoWithStyle
+              ?.restaurants || [];
+
+          const restaurantInfos = restaurants.map((res) => res?.info);
+
+          if (restaurantInfos.length > 0) {
+            setResLists(restaurantInfos);
+            setFilteredResList(restaurantInfos);
           }
         }
       } catch (err) {
@@ -71,17 +55,10 @@ const Body = () => {
         setLoading(false);
       }
     };
-  
+
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log("Component rendering");
-    console.log("Restaurants List:", resLists);
-    console.log("Filtered List:", filteredResList);
-  }, [resLists, filteredResList]);
-  
-  
   const handleFilterTopRated = () => {
     setFilteredResList((prevList) =>
       prevList.filter((res) => res.avgRating >= 4.1)
@@ -130,64 +107,3 @@ const Body = () => {
 };
 
 export default Body;
-
-
-
-
-
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setLoading(true);
-  
-  //     try {
-  //       // Step 1: Always load data from IndexedDB first
-  //       const offlineData = await getRestaurants();
-  
-  //       if (offlineData.length > 0) {
-  //         // console.log("Loaded data from IndexedDB:", offlineData);
-  //         setResLists(offlineData);
-  //         setFilteredResList(offlineData);
-  //       }
-  
-  //       // Step 2: Fetch data from API only if online and URL is valid
-  //       if (navigator.onLine) {
-  //         const proxyUrl =
-  //           "http://localhost:8080/proxy?url=https%3A%2F%2Fwww.swiggy.com%2Fdapi%2Frestaurants%2Flist%2Fv5%3Flat%3D19.9615398%26lng%3D79.2961468%26is-seo-homepage-enabled%3Dtrue%26page_type%3DDESKTOP_WEB_LISTING";
-  
-  //         const response = await axios.get(proxyUrl);
-  
-  //         const data = response.data;
-  
-  //         const restaurantsCard = data?.data?.cards?.find(
-  //           (card) =>
-  //             card?.card?.card?.gridElements?.infoWithStyle?.restaurants?.length
-  //         );
-  
-  //         const restaurants =
-  //           restaurantsCard?.card?.card?.gridElements?.infoWithStyle
-  //             ?.restaurants || [];
-  
-  //         const restaurantInfos = restaurants.map((res) => res?.info);
-  
-  //         if (restaurantInfos.length > 0) {
-  //           // console.log("Loaded data from API:", restaurantInfos);
-  //           setResLists(restaurantInfos);
-  //           setFilteredResList(restaurantInfos);
-  
-  //           // Save fresh data to IndexedDB
-  //           await saveRestaurants(restaurantInfos);
-  //         }
-  //       }
-  //     } catch (err) {
-  //       console.error("Error fetching restaurant data:", err);
-  //       setError(
-  //         "Failed to fetch restaurant data. Please check your connection or try again later."
-  //       );
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  
-  //   fetchData();
-  // }, []);

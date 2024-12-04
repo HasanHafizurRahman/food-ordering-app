@@ -7,6 +7,7 @@ import About from "./src/components/about/About";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Contact from "./src/components/contact/Contact";
 import Error from "./src/components/error/Error";
+import RestaurantsMenu from "./src/components/RestaurantsMenu/RestaurantsMenu";
 
 const App = () => (
   <>
@@ -31,6 +32,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/restaurants/:id",
+        element: <RestaurantsMenu />,
       }
     ],
     errorElement: <Error />,  
@@ -39,18 +44,5 @@ const appRouter = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={appRouter} />);
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    const swUrl = "/service-worker.js"; // Use exact filename if hashed
-    navigator.serviceWorker
-      .register(swUrl)
-      .then((registration) => {
-        console.log("Service Worker registered with scope:", registration.scope);
-      })
-      .catch((error) => {
-        console.error("Service Worker registration failed:", error);
-      });
-  });
-}
 
 
