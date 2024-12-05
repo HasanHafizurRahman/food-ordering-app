@@ -3,6 +3,7 @@ import axios from "axios";
 import Card from "./Card/Card";
 import "./body.css";
 import ShimmerLoading from "../../loading/ShimmerLoading";
+import { Link } from "react-router-dom";
 
 const Body = () => {
   const [resLists, setResLists] = useState([]);
@@ -18,7 +19,8 @@ const Body = () => {
       try {
         // Step 1: Fetch data from API if online
         if (navigator.onLine) {
-          const apiUrl = "http://cors-anywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5";
+          const apiUrl = "https://www.swiggy.com/dapi/restaurants/list/v5";
+          // const apiUrl = "http://cors-anywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5";
           const response = await axios.get(apiUrl, {
             params: {
               lat: 19.9615398,
@@ -97,7 +99,7 @@ const Body = () => {
         ) : error ? (
           <p className="error-message">{error}</p>
         ) : filteredResList.length > 0 ? (
-          filteredResList.map((res) => <Card key={res?.id} data={res} />)
+          filteredResList.map((res) => <Link to={`/restaurants/${res?.id}`}><Card key={res?.id} data={res} /></Link>) 
         ) : (
           <p className="no-data-message">No restaurants found.</p>
         )}
