@@ -1,65 +1,18 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Card from "./Card/Card";
 import "./body.css";
 import ShimmerLoading from "../../loading/ShimmerLoading";
 import { Link } from "react-router-dom";
+import useFetchResList from "../../../hook/useFetchRestaurants";
 
 const Body = () => {
-  const [resLists, setResLists] = useState([]);
+  const {resLists, loading, error} = useFetchResList();             
   const [filteredResList, setFilteredResList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-
-      try {
-        // Step 1: Fetch data from API if online
-        if (navigator.onLine) {
-          const apiUrl = "https://www.swiggy.com/dapi/restaurants/list/v5";
-          // const apiUrl = "http://cors-anywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5";
-          const response = await axios.get(apiUrl, {
-            params: {
-              lat: 19.9615398,
-              lng: 79.29614668,
-              "is-seo-homepage-enabled": true,
-              page_type: "DESKTOP_WEB_LISTING",
-            },
-          });
-
-          const data = response.data;
-
-          const restaurantsCard = data?.data?.cards?.find(
-            (card) =>
-              card?.card?.card?.gridElements?.infoWithStyle?.restaurants?.length
-          );
-
-          const restaurants =
-            restaurantsCard?.card?.card?.gridElements?.infoWithStyle
-              ?.restaurants || [];
-
-          const restaurantInfos = restaurants.map((res) => res?.info);
-
-          if (restaurantInfos.length > 0) {
-            setResLists(restaurantInfos);
-            setFilteredResList(restaurantInfos);
-          }
-        }
-      } catch (err) {
-        console.error("Error fetching restaurant data:", err);
-        setError(
-          "Failed to fetch restaurant data. Please check your connection or try again later."
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+    setFilteredResList(resLists);
+  }, [resLists]);
 
   const handleFilterTopRated = () => {
     setFilteredResList((prevList) =>
