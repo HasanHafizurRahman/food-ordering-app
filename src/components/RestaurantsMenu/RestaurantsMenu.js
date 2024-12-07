@@ -5,29 +5,14 @@ import ShimmerLoading from '../loading/ShimmerLoading';
 import { useParams } from 'react-router-dom';
 
 const RestaurantsMenu = () => {
-  const [restaurants, setRestaurants] = React.useState([]);
   const {id} = useParams();
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=12.9351929&lng=77.62448069999999&restaurantId=${id}`   
-        );
-        setRestaurants(response.data?.data?.cards || []);
-      } catch (error) {
-        console.error('Error fetching restaurants:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+const { restaurants, isLoading } = useFetchResMenu(id);                                                                                                            
 
   if (!restaurants.length) {
-    return <ShimmerLoading />;
+    return <ShimmerLoading />;                                                  
   }
 
-  return (
+  return (                                            
     <div className="container">
       <h1>Restaurants Menu</h1>
       {restaurants.map((restaurant, index) => {
