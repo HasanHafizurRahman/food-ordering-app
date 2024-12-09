@@ -2,7 +2,6 @@ import React from 'react';
 import './card.css';
 
 const Card = ({ data }) => {
-  // console.log('props data',data);
   const { name, cuisines, avgRating, sla, costForTwo, cloudinaryImageId } = data;
 
   const imageUrl = `https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/${cloudinaryImageId}`;

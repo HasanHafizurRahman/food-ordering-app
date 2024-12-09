@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import './RestaurantsMenu.css';
 import ShimmerLoading from '../loading/ShimmerLoading';
 import { useParams } from 'react-router-dom';
@@ -7,7 +6,7 @@ import useFetchResMenu from '../../hook/useFetchResMenu';
 
 const RestaurantsMenu = () => {
   const {id} = useParams();
-const { restaurants, isLoading } = useFetchResMenu(id);                                                                                                            
+const { restaurants } = useFetchResMenu(id);                                                                                                            
 
   if (!restaurants.length) {
     return <ShimmerLoading />;                                                  
