@@ -38,15 +38,15 @@ console.log("res menu", restaurants);
       if (!restaurantInfo) return null;
 
       return (
-        <div key={restaurantInfo.id || index} className="restaurant-card">
-          <h2>{restaurantInfo.name}</h2>
+        <div key={restaurantInfo?.id || index} className="restaurant-card">
+          <h2>{restaurantInfo?.name}</h2>
           <div className="restaurant-details">
-            <p>{restaurantInfo.locality}, {restaurantInfo.areaName}</p>
-            <p>Cost for Two: {restaurantInfo.costForTwoMessage}</p>
-            <p>Rating: {restaurantInfo.avgRating} ({restaurantInfo.totalRatingsString})</p>
+            <p>{restaurantInfo?.locality}, {restaurantInfo?.areaName}</p>
+            <p>Cost for Two: {restaurantInfo?.costForTwoMessage}</p>
+            <p>Rating: {restaurantInfo?.avgRating} ({restaurantInfo?.totalRatingsString})</p>
           </div>
           <ul className="cuisines-list">
-            {(restaurantInfo.cuisines || []).map((cuisine, cuisineIndex) => (
+            {(restaurantInfo?.cuisines || []).map((cuisine, cuisineIndex) => (
               <li key={cuisineIndex}>{cuisine}</li>
             ))}
           </ul>
@@ -67,7 +67,7 @@ console.log("res menu", restaurants);
                 className="accordion-header"
                 onClick={() => toggleSection(index)}
               >
-                <h2>{title}({items.length})</h2>
+                <h2>{title}({items?.length})</h2>
                 <span>{activeSection === index ? '-' : '+'}</span>
               </div>
               {activeSection === index && (
@@ -78,9 +78,9 @@ console.log("res menu", restaurants);
 
                     return (
                       <li key={itemIndex} className="menu-item">
-                        <p>{itemInfo.name}</p>
-                        <p>Price: ₹{itemInfo.price / 100}</p>
-                        <p>{itemInfo.description}</p>
+                        <p>{itemInfo?.name}</p>
+                        <p>Price: ₹{itemInfo?.price / 100}</p>
+                        <p>{itemInfo?.description}</p>
                       </li>
                     );
                   })}
