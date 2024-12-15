@@ -61,12 +61,13 @@ console.log("res menu", restaurants);
           const items = section?.card?.card?.itemCards || [];
 
           return (
-            <div key={index} className="menu-section">
+            <>
+            {items?.length > 0 && <div key={index}>
               <div
                 className="accordion-header"
                 onClick={() => toggleSection(index)}
               >
-                <h2>{title}</h2>
+                <h2>{title}({items.length})</h2>
                 <span>{activeSection === index ? '-' : '+'}</span>
               </div>
               {activeSection === index && (
@@ -85,7 +86,7 @@ console.log("res menu", restaurants);
                   })}
                 </ul>
               )}
-            </div>
+            </div>}</>
           );
         })}
       </div>
