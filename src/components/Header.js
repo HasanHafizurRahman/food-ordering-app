@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux'
+import CartModal from "./CartModal";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartModalOpen, setCartModalOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -66,10 +68,21 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <span className="text-white text-2xl cursor-pointer relative">🛒 <span className="absolute bottom-3 right-1">{cartItems.length || 0}</span></span>
+            <span
+              onClick={() => setCartModalOpen(true)}
+              className="text-white text-2xl cursor-pointer relative"
+            >
+              🛒 <span className="absolute bottom-3 right-1">{cartItems.length || 0}</span>
+            </span>
           </li>
         </ul>
       </div>
+
+      <CartModal
+        isOpen={cartModalOpen}
+        onClose={() => setCartModalOpen(false)}
+        cartItems={cartItems}
+      />
     </div>
   );
 };

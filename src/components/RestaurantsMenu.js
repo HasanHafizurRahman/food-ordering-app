@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import ShimmerLoading from "../loading/ShimmerLoading";
+import ShimmerLoading from "./loading/ShimmerLoading";
 import { useParams } from "react-router-dom";
-import useFetchResMenu from "../../hook/useFetchResMenu";
+import useFetchResMenu from "../hook/useFetchResMenu";
 import { useDispatch } from "react-redux";
-import { addItem } from "../../utils/cartSlice";
+import { addItem } from "../utils/cartSlice";
 
 const RestaurantsMenu = () => {
   const { id } = useParams();

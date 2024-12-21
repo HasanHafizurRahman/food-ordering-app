@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Card from "./Card/Card";
+import Card from "./Card";
 import "./body.css";
-import ShimmerLoading from "../../loading/ShimmerLoading";
+import ShimmerLoading from "./loading/ShimmerLoading";
 import { Link } from "react-router-dom";
-import useFetchResList from "../../../hook/useFetchRestaurants";
+import useFetchResList from "../hook/useFetchRestaurants";
 
 const Body = () => {
   const {resLists, loading, error} = useFetchResList();             
