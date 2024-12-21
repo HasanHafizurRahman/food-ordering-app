@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import ShimmerLoading from "../loading/ShimmerLoading";
 import { useParams } from "react-router-dom";
 import useFetchResMenu from "../../hook/useFetchResMenu";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../utils/cartSlice";
 
 const RestaurantsMenu = () => {
   const { id } = useParams();
   const { restaurants } = useFetchResMenu(id);
   const [activeSection, setActiveSection] = useState(null);
   // console.log("res menu", restaurants);
+  const dispatch = useDispatch();
 
   const imageUrl =
     "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill";
@@ -37,6 +40,10 @@ const RestaurantsMenu = () => {
   const toggleSection = (index) => {
     setActiveSection(activeSection === index ? null : index);
   };
+
+  const handleAddCart = (item) => {
+    dispatch(addItem(item));
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-4">
@@ -128,7 +135,8 @@ const RestaurantsMenu = () => {
                               </p>
                             </div>
                           </div>
-                          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600" 
+                          onClick={() => handleAddCart(item)}>
                             <span className="font-bold text-lg">+</span> Add
                           </button>
                         </li>

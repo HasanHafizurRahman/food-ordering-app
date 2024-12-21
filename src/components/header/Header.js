@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux'
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -7,6 +8,10 @@ const Header = () => {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+  // selector to get the cart items
+  const cartItems = useSelector((state) => state.cart.items);
+  console.log("cart items", cartItems);
 
   return (
     <div className="flex items-center justify-between px-6 py-4 bg-orange-500">
@@ -61,7 +66,7 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <span className="text-white text-2xl cursor-pointer">🛒</span>
+            <span className="text-white text-2xl cursor-pointer relative">🛒 <span className="absolute bottom-3 right-1">{cartItems.length || 0}</span></span>
           </li>
         </ul>
       </div>

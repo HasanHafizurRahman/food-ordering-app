@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Error from "./src/components/error/Error";
 import "./App.css";
 import ShimmerLoading from "./src/components/loading/ShimmerLoading";
+import { Provider } from "react-redux";
+import store from "./src/utils/store";
 
 // Lazy load components
 const Body = lazy(() => import("./src/components/body/body/Body"));
@@ -13,12 +15,12 @@ const Contact = lazy(() => import("./src/components/contact/Contact"));
 const RestaurantsMenu = lazy(() => import("./src/components/RestaurantsMenu/RestaurantsMenu"));
 
 const App = () => (
-  <>
+  <Provider store={store}>
     <Header />
     <Suspense fallback={<ShimmerLoading />}>
       <Outlet />
     </Suspense>
-  </>
+  </Provider>
 );
 
 const appRouter = createBrowserRouter([
@@ -49,3 +51,4 @@ const appRouter = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={appRouter} />);
+
