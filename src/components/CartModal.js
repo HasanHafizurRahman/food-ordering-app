@@ -35,7 +35,7 @@ const CartModal = ({ isOpen, onClose, cartItems }) => {
                   </p>
                 </div>
                 <button
-                  onClick={() => dispatch(removeItem(index))}
+                  onClick={() => dispatch(removeItem(index))} 
                   className="text-red-500 hover:text-red-700"
                 >
                   Remove
