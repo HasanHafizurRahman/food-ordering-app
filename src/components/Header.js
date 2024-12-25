@@ -11,9 +11,8 @@ const Header = () => {
     setMenuOpen(!menuOpen);
   };
 
-  // selector to get the cart items
   const cartItems = useSelector((state) => state.cart.items);
-  console.log("cart items", cartItems);
+  // console.log("cart items", cartItems);
 
   return (
     <div className="flex items-center justify-between px-6 py-4 bg-orange-500">

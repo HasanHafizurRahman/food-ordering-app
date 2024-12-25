@@ -92,9 +92,9 @@ const RestaurantsMenu = () => {
         const items = section?.card?.card?.itemCards || [];
 
         return (
-          <>
+          <div key={title || `section-${index}`}>
             {items?.length > 0 && (
-              <div key={index}>
+              <div>
                 <div
                   className="flex justify-between items-center p-4 bg-gray-100 rounded-lg cursor-pointer mb-4"
                   onClick={() => toggleSection(index)}
@@ -146,7 +146,7 @@ const RestaurantsMenu = () => {
                 )}
               </div>
             )}
-          </>
+          </div>
         );
       })}
     </div>
